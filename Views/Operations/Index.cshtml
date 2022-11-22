@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Styles{
+    <style>
+        .TransientColor {
+            background-color: #fff59c !important
+        }
+
+        .ScopedColor {
+            background-color: aquamarine !important
+        }
+
+        .SingletonColor {
+            background-color: #ff292991 !important
+        }
+    </style>
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <strong>Dependency injection in ASP.NET Core</strong>.</p>
+    <h6>Understanding <strong class="TransientColor">AddTransient</strong> Vs <strong class="ScopedColor">AddScoped</strong> Vs <strong class="SingletonColor">AddSingleton</strong> In ASP.NET Core</h6>
+</div>
+
+<hr />
+
+<table class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th>Service Type</th>
+            <th>Controller Operation</th>
+            <th>Service Operation</th>
+        </tr>
+    </thead>
+    <tbody id="OperationsBlock">
+        <partial name="_OperationsPartial" />
+    </tbody>
+</table>
+
+
+@section Scripts
+    {
+    <script>
+        (function worker() {
+            $.ajax({
+                url: '/Operations/GetOperations',
+                success: function (data) {
+                    $('#OperationsBlock').html(data);
+                },
+                complete: function () {
+                    // Schedule the next request when the current one's complete
+                    setTimeout(worker, 3000);
+                }
+            });
+        })();
+    </script>
+}
